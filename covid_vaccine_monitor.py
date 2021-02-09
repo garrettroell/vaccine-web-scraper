@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
@@ -7,9 +8,6 @@ sys.path.append('/home/pi/covid-vaccine-monitor/')
 from sheets.write_google_sheet import write_google_sheet
 from sheets.read_google_sheet import read_google_sheet
 from sheets.gspread_credentials import gspread_credentials
-
-
-
 
 def get_vaccine_status():
   url = 'https://www.northshorepharmacy.org/covid-services'
