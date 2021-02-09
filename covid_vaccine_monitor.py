@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/home/pi/covid-vaccine-monitor/venv/bin/python
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
@@ -19,24 +19,20 @@ def get_vaccine_status():
 def send_email(vaccine_status):
   client = gspread_credentials()
   message_list = read_google_sheet(client, 'Covid Vaccine Status Grandma', 'Email List')
+  message_list_2 = read_google_sheet(client, 'Covid Vaccine Status Grandma', 'Email List')
 
   if vaccine_status == 'Unknown status':
-    message_list['Message'] = f'''Hi Grandma,\n\nThe north shore pharmacy updated its website. 
-                                  This may mean that the vaccine is available. Please check the 
-                                  website to see.\n\nLove,\nGarrett\n\nThis was sent by an automated 
-                                  program.'''
+    message_list['Message'] = f'Hi Grandma,\n\nThe north shore pharmacy updated its website. This may mean that the vaccine is available. Please check the website to see.\n\nLove,\nGarrett\n\nThis was sent by an automated program, so please check that it is correct.'
   else:
-    message_list['Message'] = f'''Hi Grandma,\n\nThe north shore pharmacy has updated its vaccine 
-                                  status to {vaccine_status}.\n\nLove,\nGarrett\n\nThis was sent 
-                                  by an automated program.'''
+    message_list['Message'] = f'Hi Grandma,\n\nThe north shore pharmacy has updated its vaccine status to:\n\n{vaccine_status}\n\nLove,\nGarrett\n\nThis was sent by an automated program, so please check that it is correct.'
 
-  write_google_sheet(client, 'Covid Vaccine Status Grandma', 'Email List', message_list)
+  if not message_list.equals(message_list_2):
+    write_google_sheet(client, 'Covid Vaccine Status Grandma', 'Email List', message_list)
   print(message_list)
 
 if __name__ == '__main__':
   try:
     vaccine_status = get_vaccine_status()
-    vaccine_status = "vaccine available"
   except:
     send_email('Unknown status')
   
