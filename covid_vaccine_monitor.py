@@ -34,11 +34,7 @@ if __name__ == '__main__':
   try:
     vaccine_status = get_vaccine_status()
   except:
-    send_email('Unknown status')
-  
-  if vaccine_status != 'Awaiting Supplies':
-    send_email(vaccine_status)
-  else:
-    print('Site says awaiting supplies')
+    vaccine_status = 'Unknown status'
+  send_email(vaccine_status)
 
   
